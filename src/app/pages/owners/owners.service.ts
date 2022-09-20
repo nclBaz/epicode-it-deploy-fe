@@ -1,19 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Restaurant } from 'src/app/models/restaurant';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OwnersService {
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http:HttpClient
-  ) { }
+  apiUrlRestaurant = `${environment.apiURL}/restaurants/`;
 
-  apiUrlRestaurant = 'http://localhost:4201/restaurants/'
-
-  categories:string[] = [
+  categories: string[] = [
     'Americana',
     'Cibo di strada',
     'Cinese',
@@ -33,11 +31,10 @@ export class OwnersService {
     'Pub',
     'Siciliana',
     'Steakhouse',
-    'Turca'
-  ]
+    'Turca',
+  ];
 
-  registerRestaurant(restaurant:Restaurant){    
-    return this.http.post(this.apiUrlRestaurant, restaurant)
+  registerRestaurant(restaurant: Restaurant) {
+    return this.http.post(this.apiUrlRestaurant, restaurant);
   }
-
 }

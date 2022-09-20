@@ -1,19 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Register } from '../models/register';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RegisterService {
+  apiUrlRegister: string = `${environment.apiURL}/register`;
 
-  apiUrlRegister:string = 'http://localhost:4201/register';
+  constructor(private http: HttpClient) {}
 
-  constructor(
-    private http:HttpClient
-  ) { }
-
-  registerUser(user:Register) {
-    return this.http.post(this.apiUrlRegister, user)
+  registerUser(user: Register) {
+    return this.http.post(this.apiUrlRegister, user);
   }
 }
