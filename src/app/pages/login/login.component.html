@@ -1,0 +1,32 @@
+
+
+<div class="login">
+
+
+    <div class="login-container">
+
+        <img src="../../../assets/img/logo.png" alt="" srcset="">
+                
+        <div class="forms">
+
+            <p>Accedi al tuo account</p>
+
+            <form>
+                <input type="email" placeholder="E-mail" [(ngModel)]="authLogin.email" name="email">
+                <input type="password" placeholder="Password" [(ngModel)]="authLogin.password" name="password">
+                <p *ngIf="wrongData" class="text-danger">L'email o la password non sono corretti</p>
+                
+                <button class="btn btn-lg btn-success" (click)="login()">Accedi</button>
+            </form>
+
+            <p>oppure</p>
+
+            <button class="btn btn-warning" (click)="goToRegisterPage()">Registrati!</button>
+
+            <a routerLink="/">Torna alla home</a>
+
+        </div>
+
+    </div>
+</div>
+

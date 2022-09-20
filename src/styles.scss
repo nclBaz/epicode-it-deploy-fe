@@ -1,0 +1,23 @@
+/* You can add global styles to this file, and also import other style files */
+
+body{
+    font-family: 'Quicksand', sans-serif !important;
+}
+
+.btn{
+    border-radius: 20px !important;
+    border: none !important;
+}
+
+.btn-danger{
+    background-color: #f84200 !important
+}
+
+.btn-success{
+    background-color: #f87c00 !important
+}
+
+input{
+    border-radius: 20px;
+    padding-left: 20px !important;
+}

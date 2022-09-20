@@ -1,0 +1,31 @@
+
+.navbar{
+    padding: 0;
+    box-shadow: 0 0 10px #a7a7a7;
+}
+
+.main-nav{
+    height: 50px;
+    align-items: center;
+}
+
+.nav-2{
+    img{
+        height: 100px;
+        transform: translateY(-5px);
+        cursor: pointer;
+    }
+}
+.bi-person-circle::before{
+    font-size: 30px;
+    margin-top: -3px;
+    color: #7e7e7e;
+}
+
+.logout{
+    margin-top: -10px;
+}
+
+.user-btn:focus{
+    box-shadow: none;
+}

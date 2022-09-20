@@ -1,0 +1,138 @@
+.navbar {
+    padding: 0;
+    box-shadow: 0 0 10px #a7a7a7;
+}
+
+.restaurant-logo {
+    position: relative;
+
+    h6 {
+        position: absolute;
+        bottom: 19px;
+        left: 69px;
+        color: #000000;
+        font-weight: 700;
+        font-size: 11px;
+    }
+}
+
+.main-nav {
+    height: 50px;
+    align-items: center;
+}
+
+.loading {
+    height: 80vh;
+}
+
+.nav-2 {
+    img {
+        height: 100px;
+        transform: translateY(-5px);
+    }
+}
+
+.bi-person-circle::before {
+    font-size: 30px;
+    margin-top: -3px;
+    color: #7e7e7e;
+}
+
+.logout {
+    margin-top: -10px;
+}
+
+#main {
+    min-height: 80vh;
+}
+
+#sidebarMenu {
+    min-height: 80vh;
+
+    @media screen and (max-width: 769px) {
+        justify-content: center;
+        min-height: 100%;
+        margin-bottom: 30px;
+    }
+
+    .badge {
+        top: 20px;
+        right: 5px;
+        background-color: #f84200;
+    }
+}
+
+.nav-link {
+    color: #7e7e7e;
+    cursor: pointer;
+}
+
+.active {
+    color: #000 !important;
+    font-weight: 600;
+    background-color: #fff;
+    border-radius: 20px;
+}
+
+.dati {
+    max-width: 550px;
+
+    p {
+        margin-top: 10px;
+    }
+
+    .form-control {
+        margin-top: -10px;
+        border-radius: 20px;
+    }
+
+    .form-check-inline {
+
+        .form-check-input {
+            margin-right: 5px;
+        }
+
+        .form-check-label {
+            margin-right: 10px;
+        }
+    }
+
+}
+
+.orari {
+    max-width: 550px;
+}
+
+.calendar {
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+
+    .day {
+        min-width: 300px;
+        min-height: 65vh;
+    }
+}
+
+.card {
+    max-width: 700px;
+}
+
+::-webkit-scrollbar {
+    height: 20px;
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

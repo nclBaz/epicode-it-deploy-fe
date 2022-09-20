@@ -1,0 +1,375 @@
+<header>
+  <nav class="navbar bg-transparent nav-2">
+    <div class="container-fluid">
+      <div class="restaurant-logo">
+        <img src="../../../assets/img/logo.png" alt="" srcset="" />
+        <h6><b>FOR RESTAURANT</b></h6>
+      </div>
+
+      <div class="user d-flex">
+        <h5 class="fs-6 me-2">
+          Ciao, <span class="fs-5">{{ name }}</span>
+        </h5>
+        <i class="bi bi-person-circle me-2"></i>
+        <button class="btn btn-danger logout" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div
+  *ngIf="isLoading"
+  class="d-flex justify-content-center align-items-center loading"
+>
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="container-fluid" id="main">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+      <div class="position-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item py-1">
+            <a *ngIf="info" class="nav-link active">Info Ristorante</a>
+            <a *ngIf="!info" class="nav-link" (click)="setInfo()"
+              >Info Ristorante</a
+            >
+          </li>
+          <li class="nav-item py-1">
+            <a class="nav-link active" *ngIf="dati">Modifica dati</a>
+            <a class="nav-link" *ngIf="!dati" (click)="setDati()"
+              >Modifica dati</a
+            >
+          </li>
+          <li class="nav-item py-1">
+            <a class="nav-link active" *ngIf="orari">Modifica orari</a>
+            <a class="nav-link" *ngIf="!orari" (click)="setOrari()"
+              >Modifica orari</a
+            >
+          </li>
+          <li class="nav-item py-1">
+            <a class="nav-link active" *ngIf="recensioni">Recensioni</a>
+            <a class="nav-link" *ngIf="!recensioni" (click)="setRecensioni()"
+              >Recensioni</a
+            >
+          </li>
+          <li class="nav-item py-1">
+            <a class="nav-link active position-relative" *ngIf="prenotazioni">
+              Prenotazioni
+              <span
+                class="position-absolute translate-middle badge rounded-pill"
+                >{{ reservation.length }}</span
+              >
+            </a>
+            <a
+              class="nav-link position-relative"
+              *ngIf="!prenotazioni"
+              (click)="setPrenotazioni()"
+              >Prenotazioni<span
+                class="position-absolute translate-middle badge rounded-pill"
+                >{{ reservation.length }}</span
+              ></a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div
+        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
+      >
+        <h1 class="h2">
+          <b>{{ restaurant.restaurant }}</b>
+        </h1>
+        <button
+          *ngIf="info"
+          class="btn btn-danger"
+          (click)="deleteRestaurant()"
+        >
+          Elimina Ristorante
+        </button>
+        <button *ngIf="dati" class="btn btn-warning" (click)="editDati()">
+          Salva modifiche
+        </button>
+        <button *ngIf="orari" class="btn btn-warning" (click)="editOrari()">
+          Salva modifiche
+        </button>
+      </div>
+
+      <div *ngIf="info">
+        <div>
+          <h6 class="my-4">INFO</h6>
+          <p><i class="bi bi-geo me-2"></i><b>Indirizzo:</b> {{ restaurant.address }}</p>
+          <p><i class="bi bi-map me-2"></i><b>Città:</b> {{ restaurant.cap }} - {{ restaurant.city }}</p>
+          <p><i class="bi bi-telephone me-2"></i><b>Telefono:</b> {{ restaurant.phone }}</p>
+        </div>
+        <div class="mt-5">
+          <h6 class="my-4">ORARI</h6>
+          <p *ngIf="restaurant.lunchStart">
+            <i class="bi bi-clock me-2"></i><b>Pranzo:</b> dalle {{ restaurant.lunchStart }} alle
+            {{ restaurant.lunchEnd }}
+          </p>
+          <p *ngIf="!restaurant.lunchStart"><i class="bi bi-clock me-2"></i><b>Pranzo:</b> Chiusi</p>
+          <p *ngIf="restaurant.dinnerStart">
+            <i class="bi bi-clock me-2"></i><b>Cena:</b> dalle {{ restaurant.dinnerStart }} alle
+            {{ restaurant.dinnerEnd }}
+          </p>
+          <p *ngIf="!restaurant.dinnerStart"><i class="bi bi-clock me-2"></i><b>Cena:</b> Chiusi</p>
+          <p><i class="bi bi-calendar-x me-2"></i><b>Giorno di riposo:</b> {{ restaurant.dayOff }}</p>
+        </div>
+        <div class="mt-5">
+          <h6 class="my-4">CATEGORIE</h6>
+          <p>{{ restaurant.categories }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="dati" class="dati">
+        <div>
+          <h6 class="my-4">INFO</h6>
+          <p><b>Indirizzo:</b></p>
+          <input
+            type="text"
+            class="form-control"
+            value="{{ restaurant.address }}"
+            [(ngModel)]="restaurant.address"
+          />
+          <p><b>CAP:</b></p>
+          <input
+            type="number"
+            class="form-control"
+            value="{{ restaurant.cap }}"
+            [(ngModel)]="restaurant.cap"
+          />
+          <p><b>Città:</b></p>
+          <input
+            type="text"
+            class="form-control"
+            value="{{ restaurant.city }}"
+            [(ngModel)]="restaurant.city"
+          />
+          <p><b>Telefono:</b></p>
+          <input
+            type="tel"
+            class="form-control"
+            value="{{ restaurant.phone }}"
+            [(ngModel)]="restaurant.phone"
+          />
+        </div>
+        <div class="mt-5 d-flex row">
+          <h6 class="my-4">CATEGORIE</h6>
+          <div
+            *ngFor="let category of categories"
+            class="form-check-inline col-4"
+          >
+            <input
+              (change)="modCategory(category)"
+              class="form-check-input"
+              type="checkbox"
+              value="{{ category }}"
+              id="flexCheckDefault"
+              [checked]="checkCat(category)"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              {{ category }}
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="orari" class="orari">
+        <h6 class="my-4">ORARI</h6>
+        <div>
+          <h6 class="mt-3">Orario Pranzo</h6>
+          <div class="row">
+            <div class="col-1 mt-2">
+              <p>dalle</p>
+            </div>
+            <div class="col-5">
+              <select
+                name="orario-pranzo-start"
+                [(ngModel)]="restaurant.lunchStart"
+                class="form-select"
+              >
+                <option value="">Non Aperti a pranzo</option>
+                <option value="10.00">10.00</option>
+                <option value="11.00">11.00</option>
+                <option value="12.00">12.00</option>
+              </select>
+            </div>
+            <div class="col-1 mt-2">
+              <p *ngIf="restaurant.lunchStart != ''">alle</p>
+            </div>
+            <div class="col-5">
+              <select
+                name="orario-pranzo-end"
+                class="form-select"
+                [(ngModel)]="restaurant.lunchEnd"
+                *ngIf="restaurant.lunchStart != ''"
+              >
+                
+                <option value="13.00">13.00</option>
+                <option value="14.00">14.00</option>
+                <option value="15.00">15.00</option>
+                <option value="16.00">16.00</option>
+              </select>
+            </div>
+          </div>
+
+          <hr />
+
+          <h6 class="mt-3">Orario Cena</h6>
+          <div class="row">
+            <div class="col-1 mt-2">
+              <p>dalle</p>
+            </div>
+            <div class="col-5">
+              <select
+                name="orario-cena-start"
+                class="form-select"
+                [(ngModel)]="restaurant.dinnerStart"
+              >
+                <option value="">Non Aperti a cena</option>
+                <option value="18.00">18.00</option>
+                <option value="19.00">19.00</option>
+                <option value="20.00">20.00</option>
+                <option value="21.00">21.00</option>
+              </select>
+            </div>
+            <div class="col-1 mt-2">
+              <p *ngIf="restaurant.dinnerStart != ''">alle</p>
+            </div>
+            <div class="col-5">
+              <select
+                name="orario-cena-end"
+                class="form-select"
+                [(ngModel)]="restaurant.dinnerEnd"
+                *ngIf="restaurant.dinnerStart != ''"
+              >
+                
+                <option value="00.00">00.00</option>
+                <option value="01.00">01.00</option>
+                <option value="02.00">02.00</option>
+                <option value="03.00">03.00</option>
+                <option value="04.00">04.00</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row mt-3">
+          <div class="col mt-2">
+            <h6>Giorno di riposo</h6>
+          </div>
+          <div class="col-8">
+            <select
+              name="giorno-riposo"
+              [(ngModel)]="restaurant.dayOff"
+              class="form-select"
+            >
+              <option value="">Nessuno</option>
+              <option value="Lunedì">Lunedì</option>
+              <option value="Martedì">Martedì</option>
+              <option value="Mercoledì">Mercoledì</option>
+              <option value="Giovedì">Giovedì</option>
+              <option value="Venerdì">Venerdì</option>
+              <option value="Sabato">Sabato</option>
+              <option value="Domenica">Domenica</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="recensioni">
+        <h6 class="my-4">RECENSIONI DEI CLIENTI</h6>
+        <p class="mb-4">
+          Media valutazioni: <span class="fs-3">{{ valutation() }}</span>
+        </p>
+        <hr />
+        <p *ngIf="reviews.length == 0">Ancora nessuna recensione ricevuta!</p>
+        <div *ngFor="let review of reviews" class="col-12 pb-3">
+          <div class="card shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5><i class="bi bi-person me-2"></i>{{ review.autor }}</h5>
+                  <p class="mt-4">
+                    <i>{{ review.description }}</i>
+                  </p>
+                </div>
+                <div>
+                  <div>
+                    <p>Valutazione: {{ review.stars }}</p>
+                  </div>
+                  <div>
+                    <p class="date-title">Pubblicato il: {{ review.date }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="prenotazioni">
+        <h6 class="my-4">PRENOTAZIONI RICEVUTE</h6>
+
+        <div class="calendar">
+          <div
+            *ngFor="let day of dateArrayString; let x = index"
+            class="day border-end p-2 text-center"
+          >
+            <h5 class="rounded-pill bg-warning p-1">{{ day }}</h5>
+            <p *ngIf="checkDayOff(day)" class="mt-5 py-3 bg-light text-danger">
+              <b> Riposo settimanale</b>
+            </p>
+
+            <div class="album py-3">
+              <div class="container">
+                <div *ngFor="let res of reservation; let i = index">
+                  <div
+                    *ngIf="checkResForDay(day, i)"
+                    class="card shadow-sm text-start my-3 bg-light"
+                  >
+                    <div class="card-body m-0">
+                      <div class="d-flex justify-content-between">
+                        <h5>
+                          <i class="bi bi-calendar2-check"></i> {{ res.name }}
+                        </h5>
+                        <p class="fs-5 m-0">
+                          <i class="bi bi-people"></i> {{ res.people }}
+                        </p>
+                      </div>
+                      <p class="m-0">Ore: {{ res.time }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="container d-flex flex-column flex-sm-row justify-content-between pt-2 mt-5 border-top"
+>
+  <p>© 2022 Take A Sit, Inc. - All rights reserved.</p>
+  <ul class="list-unstyled d-flex">
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-twitter"></i></a>
+    </li>
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-facebook"></i></a>
+    </li>
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-instagram"></i></a>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,31 @@
+
+<div class="register">
+
+    <div class="register-container">
+
+      <img src="../../../assets/img/logo.png" alt="" srcset="">
+              
+      <h3>Compila tutti i campi:</h3>
+        
+      <div class="forms">
+
+        <form>
+          <small *ngIf="wrongFirstName" class="text-danger ps-3">Nome non valido</small>
+          <input (input)="wrongFirstName = false" type="text" placeholder="Nome" [(ngModel)]="authRegister.first_name" name="first-name">
+          <small *ngIf="wrongLastName" class="text-danger ps-3">Cognome non valido</small>
+          <input (input)="wrongLastName = false" type="text" placeholder="Cognome" [(ngModel)]="authRegister.last_name" name="last-name">
+          <small *ngIf="wrongEmail" class="text-danger ps-3">Email non valida</small>
+          <input (input)="wrongEmail = false" type="email" placeholder="Email" [(ngModel)]="authRegister.email" name="email">
+          <small *ngIf="wrongPassword" class="text-danger ps-3">Password non valida</small>
+          <input (input)="wrongPassword = false" type="password" placeholder="Password" [(ngModel)]="authRegister.password" name="password">
+            
+          <button class="btn btn-lg btn-warning" (click)="register()">Registrati</button>
+          <a [routerLink]="['/']">Torna alla home</a>
+        </form>
+
+      </div>
+
+    </div>
+
+</div>
+

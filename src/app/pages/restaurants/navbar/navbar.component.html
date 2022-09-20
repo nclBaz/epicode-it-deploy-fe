@@ -1,0 +1,98 @@
+<header>
+    <nav class="navbar bg-transparent nav-2">
+        <div class="container-fluid">
+            <!-- <a class="navbar-brand text-white" href="#">Take A Sit</a> -->
+            <img src="../../../assets/img/logo.png" alt="logo" (click)="goToHome()" />
+
+            <div *ngIf="!isUserLogged()" class="nav">
+                <ul class="nav main-nav me-auto">
+                    <li class="nav-item">
+                        <a class="btn btn-success me-3" (click)="login()">Accedi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-warning" (click)="register()">Registrati</a>
+                    </li>
+                </ul>
+            </div>
+
+            <div *ngIf="isUserLogged()" class="user d-flex">
+                <h5 class="fs-6 me-2">
+                    Ciao, <span class="fs-5">{{ name }}</span>
+                </h5>
+                <button class="btn me-2 p-0 user-btn" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+                    <i class="bi bi-person-circle"></i>
+                </button>
+                <button class="btn btn-danger logout" (click)="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div *ngIf="user" class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1"
+            id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">
+                    Info Utente
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body pt-5">
+                <p>
+                    <i class="bi bi-person me-2"></i><small>Nome:</small><b> {{ user.first_name }}</b>
+                </p>
+                <p>
+                    <i class="bi bi-person me-2"></i><small>Cognome:</small><b> {{ user.last_name }}</b>
+                </p>
+                <p>
+                    <i class="bi bi-envelope me-2"></i><small>Email:</small><b> {{ user.email }}</b>
+                </p>
+                <button (click)="deleteUser()" class="btn btn-danger">
+                    <small><i class="bi bi-trash me-2"></i>Elimina account</small>
+                </button>
+                <hr class="my-5" />
+                <div *ngIf="isLoading" class="d-flex justify-content-center align-items-center loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div *ngIf="!isLoading">
+                    <h5>Le tue prenotazioni attive:</h5>
+                    <div *ngFor="let r of reservation; let i = index" class="py-4">
+                        <div class="d-flex justify-content-between">
+                            <p class="m-0">
+                                <i class="bi bi-calendar2-check fs-3 me-3"></i><b>{{ r.restName }}</b>
+                            </p>
+                            <button (click)="deleteReservation(i)" class="btn btn-danger">
+                                <small><i class="bi bi-trash"></i></small>
+                            </button>
+                        </div>
+                        <p class="m-0">
+                            <small>Giorno: {{ date[i] }} - ore: {{ r.time }}</small>
+                        </p>
+                        <p class="m-0">
+                            <small>Per {{ r.people }} persone</small>
+                        </p>
+                    </div>
+                    <hr>
+                    <h5>Cronologia prenotazioni:</h5>
+                    <p *ngIf="expiredRes.length == 0">Non ci sono prenotazioni scadute!</p>
+                    <div *ngFor="let r of expiredRes; let i = index" class="py-4">
+                        <div class="d-flex justify-content-between">
+                            <p class="m-0">
+                                <i class="bi bi-calendar2-check fs-3 me-3"></i><b>{{ r.restName }}</b>
+                            </p>
+                            <button (click)="deleteExpRes(i)" class="btn btn-danger">
+                                <small><i class="bi bi-trash"></i></small>
+                            </button>
+                        </div>
+                        <p class="m-0">
+                            <small>Giorno: {{ dateExp[i] }} - ore: {{ r.time }}</small>
+                        </p>
+                        <p class="m-0">
+                            <small>Per {{ r.people }} persone</small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

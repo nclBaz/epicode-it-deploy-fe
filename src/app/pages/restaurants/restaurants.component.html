@@ -1,0 +1,83 @@
+<app-navbar></app-navbar>
+
+<div class="container search-form">
+  <div class="text-center">
+    <div class="title-search">
+      <h1>Dove vorresti andare?</h1>
+    </div>
+
+    <form>
+      <input (input)="noCity = false" [(ngModel)]="city" class="form-control" type="text"
+        placeholder="Inserisci la Città" name="city" [value]="city" />
+      <button (click)="searchRestaurantByCity()" class="btn btn-lg btn-danger">
+        Trova i ristoranti!
+      </button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="border d-flex align-items-center pt-3">
+  <div class="container text-end d-flex justify-content-between">
+    <p><small>Pag. <b>{{currentPage}}</b> di <b>{{pages.length}}</b></small></p>
+    <div *ngIf="noCity">
+      <p *ngIf="!isLoading">
+        <small>La ricerca ha prodotto <b class="fs-6">{{ resultNum }}</b>
+          <span *ngIf="resultNum == 1"> risultato</span>
+          <span *ngIf="resultNum > 1 || resultNum == 0">
+            risultati</span>
+            per
+            <b class="fs-6"><i>"{{ city }}"</i></b></small>
+          </p>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center loading">
+  <div class="spinner-border" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div *ngIf="!isLoading" class="border-top album py-5 bg-light">
+  <div class="container">
+    <div class="row g-3">
+      <app-restaurant *ngFor="let restaurant of restaurants" [restaurant]="restaurant"></app-restaurant>
+    </div>
+  </div>
+  <hr class="mt-5">
+
+  <div class="container">
+
+    <nav class="mt-3 d-flex justify-content-between" aria-label="Page navigation example">
+      <ul class="pagination justify-content-start container">
+        <li class="page-item d-flex row">
+          <select (change)="changePagination()" [(ngModel)]="restaurantsForPage" class="form-select col">
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+          </select>
+          <small class="col">Risultati per pag.</small> 
+        </li>
+      </ul>
+      <ul class="pagination justify-content-end container">
+        <li class="page-item mt-2 me-2">Pag.</li>
+        <li *ngFor="let page of pages; let i = index" class="page-item "><button (click)="setCurrentPage(i)" [ngClass]="{'active-page':currentPage == page}" class="page-link text-dark ">{{page}}</button></li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+<div class="container d-flex flex-column flex-sm-row justify-content-between pt-2 mt-5 border-top">
+  <p>© 2022 Take A Sit, Inc. - All rights reserved.</p>
+  <ul class="list-unstyled d-flex">
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-twitter"></i></a>
+    </li>
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-facebook"></i></a>
+    </li>
+    <li class="ms-3">
+      <a class="link-dark" href="#"><i class="bi bi-instagram"></i></a>
+    </li>
+  </ul>
+</div>

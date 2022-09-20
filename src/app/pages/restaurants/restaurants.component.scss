@@ -1,0 +1,56 @@
+
+.loading{
+    height: 60vh;
+}
+
+.album{
+    min-height: 54.2vh;
+    // app-restaurant{
+    //     max-width: 700px;
+    //     margin: 10px auto;
+    // }
+}
+
+.search-form{
+    // z-index: 100;
+    max-width: 600px;
+
+    background-color: #fff;
+    margin: 10px auto;
+    position: relative;
+
+    .title-search{
+        padding: 20px 0;
+        h1{
+            color: #f87c00
+        }
+    }
+
+    input{
+        border-radius: 50px;
+        padding: 15px;
+        font-size: 20px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+        max-width: 500px;
+        
+        &:focus-visible{
+            outline: none;
+            box-shadow: 0 0 20px grey;
+        }
+    }
+    
+    button{
+        position: absolute;
+        bottom: 7px;
+        right: 58px;
+        padding: 9px 20px;
+        border-radius: 50px !important;
+    }
+    
+}
+
+.active-page{
+    background-color: #f87c00;
+    color: #fff !important;
+}

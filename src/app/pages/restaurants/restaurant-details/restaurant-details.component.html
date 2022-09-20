@@ -1,0 +1,168 @@
+<app-navbar></app-navbar>
+
+<div *ngIf="isLoading" class="d-flex justify-content-center align-items-center loading">
+    <div class="spinner-border" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+
+<div *ngIf="!isLoading" class="container my-3">
+    <div class="row">
+        <div class="mb-5">
+            <small><a class="text-dark" [routerLink]="['/restaurants/'+restaurant.city]"><i class="bi bi-arrow-left me-2"></i>Torna alla ricerca</a></small>
+        </div>
+        <div class="col-8 info-risto">
+            <h1><i class="bi bi-image me-3"></i> {{restaurant.restaurant}}</h1>
+            <p class="mt-5">{{restaurant.address}}, {{restaurant.cap}} - {{restaurant.city}}</p>
+            <p><small><b>Categorie:</b> {{restaurant.categories}}</small></p>
+        </div>
+
+        <div class="col info-rec">
+            <p><small>Valutazione: <span class="fs-1 green">{{valutation()}}</span></small></p>
+            <p class="mt-4"><small>Tot. recensioni: <span class="fs-5">{{reviews.length}}</span></small></p>
+        </div>
+    </div>
+    <hr>
+    <div class="desc row">
+        <div class="col">
+            <h6 class="my-4">INFO</h6>
+            <p><b><i class="bi bi-geo"></i> Indirizzo:</b> {{restaurant.address}}</p>
+            <p><b><i class="bi bi-map"></i> Città:</b> {{restaurant.cap}} - {{restaurant.city}}</p>
+            <p><b><i class="bi bi-telephone"></i> Telefono:</b> {{restaurant.phone}}</p>
+        </div>
+        <div class="col">
+            <h6 class="my-4">ORARI</h6>
+            <p *ngIf="restaurant.lunchStart"><b><i class="bi bi-clock"></i> Pranzo:</b> dalle {{restaurant.lunchStart}}
+                alle {{restaurant.lunchEnd}}</p>
+            <p *ngIf="!restaurant.lunchStart"><b><i class="bi bi-clock"></i> Pranzo:</b> Chiusi</p>
+            <p><b><i class="bi bi-clock"></i> Cena:</b> dalle {{restaurant.dinnerStart}} alle {{restaurant.dinnerEnd}}
+            </p>
+            <p><b><i class="bi bi-calendar-x"></i> Giorno di riposo:</b> {{restaurant.dayOff}}</p>
+        </div>
+    </div>
+    <hr>
+    <div *ngIf="!isReserved">
+        <h2 class="reserve-title">Prenota il tuo tavolo!</h2>
+        <form class="row prenota" (submit)="setReservation()">
+            <div class="col-6">
+                <p>Giorno</p>
+                <select [(ngModel)]="date" name="date" class="form-select">
+                    <option *ngFor="let day of dateArrayString; let i = index" value="{{dateArray[i]}}"
+                        [disabled]="checkDayOff(day)">{{day}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <p>Orario</p>
+                <select [(ngModel)]="time" name="time" class="form-select">
+                    <option *ngIf="restaurant.lunchStart">Pranzo</option>
+                    <option *ngFor="let ora of orariPranzo">{{ora}}</option>
+                    <hr>
+                    <option *ngIf="restaurant.dinnerStart">Cena</option>
+                    <option *ngFor="let ora of orariCena">{{ora}}</option>
+                </select>
+            </div>
+            <div class="col-6 mt-3 position-relative">
+                <p>Persone:</p>
+                <input [(ngModel)]="person" name="person" class="form-control ps-5" type="number" min="1" max="12" maxlength="2"
+                    placeholder="n° persone al tavolo">
+                <i class="bi bi-people position-absolute"></i>
+            </div>
+
+            <button [disabled]="!time || !date || !person" type="submit" class="btn btn-success col-6 mx-auto mt-5">Prenota Tavolo</button>
+        </form>
+    </div>
+    <div *ngIf="isReserved">
+        <h2 class="reserve-title">Prenotazione avvenuta con successo!</h2>
+        <p class="text-center">Gustati il pasto, dopodiché se vuoi, condividi la tua esperienza con la comunity!</p>
+    </div>
+    
+    
+
+    <hr>
+    <div *ngIf="!isReview" class="text-center text-area mt-3">
+        <h2 class="recensioni">Sei già stato in questo ristorante?</h2>
+        <p>Condividi la tua esperienza!</p>
+        <div>
+            <i (click)="review.stars = 1" *ngIf="checkStars(review.stars, 1)" class="bi bi-star fs-3 mx-2"></i>
+            <i (click)="review.stars = 1" *ngIf="review.stars >= 1" class="bi bi-star-fill fs-3 mx-2"></i>
+            <i (click)="review.stars = 2" *ngIf="checkStars(review.stars, 2)" class="bi bi-star fs-3 mx-2"></i>
+            <i (click)="review.stars = 2" *ngIf="review.stars >= 2 " class="bi bi-star-fill fs-3 mx-2"></i>
+            <i (click)="review.stars = 3" *ngIf="checkStars(review.stars, 3)" class="bi bi-star fs-3 mx-2"></i>
+            <i (click)="review.stars = 3" *ngIf="review.stars >= 3" class="bi bi-star-fill fs-3 mx-2"></i>
+            <i (click)="review.stars = 4" *ngIf="checkStars(review.stars, 4)" class="bi bi-star fs-3 mx-2"></i>
+            <i (click)="review.stars = 4" *ngIf="review.stars >= 4" class="bi bi-star-fill fs-3 mx-2"></i>
+            <i (click)="review.stars = 5" *ngIf="checkStars(review.stars, 5)" class="bi bi-star fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 5" *ngIf="review.stars >= 5" class="bi bi-star-fill fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 6" *ngIf="checkStars(review.stars, 6)" class="bi bi-star fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 6" *ngIf="review.stars >= 6" class="bi bi-star-fill fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 7" *ngIf="checkStars(review.stars, 7)" class="bi bi-star fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 7" *ngIf="review.stars >= 7 " class="bi bi-star-fill fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 8" *ngIf="checkStars(review.stars, 8)" class="bi bi-star fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 8" *ngIf="review.stars >= 8" class="bi bi-star-fill fs-3 mx-2 yellow"></i>
+            <i (click)="review.stars = 9" *ngIf="checkStars(review.stars, 9)" class="bi bi-star fs-3 mx-2 green"></i>
+            <i (click)="review.stars = 9" *ngIf="review.stars >= 9" class="bi bi-star-fill fs-3 mx-2 green"></i>
+            <i (click)="review.stars = 10" *ngIf="checkStars(review.stars, 10)" class="bi bi-star fs-3 mx-2 green"></i>
+            <i (click)="review.stars = 10" *ngIf="review.stars >= 10" class="bi bi-star-fill fs-3 mx-2 green"></i>
+        </div>
+        <div class="container mt-3">
+            <h6 class="text-start">Scrivi qui la tua recensione: <span class="facolt">(facoltativo)</span></h6>
+            <textarea [(ngModel)]="review.description" class="form-control text-area" name="review-desc"
+                rows="3"></textarea>
+            <button [disabled]="!review.stars" (click)="sendReview()" class="btn btn-warning my-3 p-2 px-4">Invia Recensione</button>
+        </div>
+    </div>
+
+    <div *ngIf="isReview" class="text-center bg-light p-5">
+        <h2 class="recensioni">Grazie per il tuo feedback!</h2>
+        <p>La tua recensione aiuterà i prossimi clienti di questa struttura!</p>
+    </div>
+    <hr>
+
+    <div class="text-area">
+
+        <div class="album bg-light">
+            <div class="container">
+                <h2 class="recensioni py-2">Recensioni</h2>
+                <p class="text-center" *ngIf="reviews.length == 0">Non ci sono ancora recensioni...</p>
+
+                <div *ngIf="isLoadingRev" class="d-flex justify-content-center align-items-center loading">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+                <div *ngIf="!isLoadingRev" class="row g-3">
+
+                    <div *ngFor="let review of reviews" class="col-12 pb-3">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h5><i class="bi bi-person me-2"></i>{{review.autor}}</h5>
+                                        <p class="mt-4"><i>{{review.description}}</i></p>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <p>Valutazione: {{review.stars}}</p>
+                                        </div>
+                                        <div>
+                                            <p class="date-title">Pubblicato il: {{review.date}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container d-flex flex-column flex-sm-row justify-content-between pt-2 mt-5 border-top">
+    <p>© 2022 Take A Sit, Inc. - All rights reserved.</p>
+    <ul class="list-unstyled d-flex">
+        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-twitter"></i></a></li>
+        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-facebook"></i></a></li>
+        <li class="ms-3"><a class="link-dark" href="#"><i class="bi bi-instagram"></i></a></li>
+    </ul>
+</div>
